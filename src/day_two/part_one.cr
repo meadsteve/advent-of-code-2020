@@ -1,5 +1,5 @@
 def input_data
-  File.open("./src/day_two/input.txt").each_line.map{|raw| parse_line(raw)}
+  File.open("./src/day_two/input.txt").each_line.map { |raw| parse_line(raw) }
 end
 
 struct Line
@@ -10,16 +10,16 @@ struct Line
 end
 
 def parse_line(raw_input)
-   match = raw_input.match(/([0-9]+)-([0-9]+) ([a-zA-Z]): (.+)/)
-   if !match
-     raise "bad input: " + raw_input
-   end
-   Line.new(match[1].to_i, match[2].to_i, match[3][0], match[4])
+  match = raw_input.match(/([0-9]+)-([0-9]+) ([a-zA-Z]): (.+)/)
+  if !match
+    raise "bad input: " + raw_input
+  end
+  Line.new(match[1].to_i, match[2].to_i, match[3][0], match[4])
 end
 
 def validate(line : Line)
-    occurances = line.password.count(line.required_letter)
-    occurances >= line.min && occurances <= line.max
+  occurances = line.password.count(line.required_letter)
+  occurances >= line.min && occurances <= line.max
 end
 
-puts(input_data().select { |line| validate(line)}.size)
+puts(input_data().count { |line| validate(line) })
