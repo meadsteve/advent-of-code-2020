@@ -1,5 +1,5 @@
 def input_data
-  File.open("./src/day_two/input.txt").each_line.map { |raw| parse_line(raw) }
+  File.open("./src/day_02/input.txt").each_line.map { |raw| parse_line(raw) }
 end
 
 struct Line
