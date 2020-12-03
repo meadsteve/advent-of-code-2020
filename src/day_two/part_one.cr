@@ -3,9 +3,9 @@ def input_data
 end
 
 struct Line
-  property min, max, required_letter, password
+  property a, b, required_letter, password
 
-  def initialize(@min : Int32, @max : Int32, @required_letter : Char, @password : String)
+  def initialize(@a : Int32, @b : Int32, @required_letter : Char, @password : String)
   end
 end
 
@@ -17,9 +17,9 @@ def parse_line(raw_input)
   Line.new(match[1].to_i, match[2].to_i, match[3][0], match[4])
 end
 
-def validate(line : Line)
+def validate_part_one(line : Line)
   occurances = line.password.count(line.required_letter)
-  occurances >= line.min && occurances <= line.max
+  occurances >= line.a && occurances <= line.b
 end
 
-puts(input_data().count { |line| validate(line) })
+puts(input_data().count { |line| validate_part_one(line) })
