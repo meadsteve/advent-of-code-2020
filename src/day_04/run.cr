@@ -1,6 +1,7 @@
 require "./solution.cr"
 
-raw = File.open("./src/day_04/example.txt").each_line
-passports = FileOfPassports.new(raw)
-
-puts(passports.to_a)
+valid_passports = FileOfPassports
+  .new("./src/day_04/input.txt")
+  .select(&.valid_for_passport?)
+  .size
+puts(valid_passports)
