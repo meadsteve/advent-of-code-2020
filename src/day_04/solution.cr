@@ -21,8 +21,32 @@ REQUIRED_PASSPORT_KEYS = [
 ]
 
 class Hash
-  def valid_for_passport?
+  def valid_for_passport_in_part_one?
     REQUIRED_PASSPORT_KEYS.all? { |key| has_key?(key) }
+  end
+
+  def valid_for_passport_in_part_two?
+    REQUIRED_PASSPORT_KEYS.all? { |key| has_key?(key) } && all_data_is_valid_for_part_two
+  end
+
+  private def all_data_is_valid_for_part_two
+    begin
+      self["byr"].to_i >= 1920 && self["byr"].to_i <= 2002 && self["iyr"].to_i >= 2010 && self["iyr"].to_i <= 2020 && self["eyr"].to_i >= 2020 && self["eyr"].to_i <= 2030 && valid_height(self["hgt"]) && self["hcl"].matches?(/\#[a-f0-9]{6}/) && self["ecl"].matches?(/(amb|blu|brn|gry|grn|hzl|oth)/) && self["pid"].matches?(/[0-9]{9}/)
+    rescue
+      # being lazy so any exception probably means invalid
+      false
+    end
+  end
+
+  private def valid_height(height : String)
+    match = height.match(/([0-9].)(cm|in)/)
+    if !match
+      false
+    elsif match[2] == "cm"
+      match[1].to_i >= 150 && match[1].to_i <= 193
+    elsif match[2] == "in"
+      match[1].to_i >= 59 && match[1].to_i <= 76
+    end
   end
 end
 

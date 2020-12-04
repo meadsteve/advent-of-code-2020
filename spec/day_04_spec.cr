@@ -14,15 +14,37 @@ describe "Day 04 solution" do
     end
   end
 
-  describe "passport validation extension to hashes" do
+  describe "passport validation extension to hashes for part one" do
     it "validates correct passports" do
       passport_data = {"ecl" => "gry", "pid" => "860033327", "eyr" => "2020", "hcl" => "#fffffd", "byr" => "1937", "iyr" => "2017", "cid" => "147", "hgt" => "183cm"}
-      passport_data.valid_for_passport?.should eq true
+      passport_data.valid_for_passport_in_part_one?.should eq true
     end
 
     it "rejects incorrect passports" do
       passport_data = {"pid" => "860033327", "eyr" => "2020", "hcl" => "#fffffd", "byr" => "1937", "iyr" => "2017", "cid" => "147", "hgt" => "183cm"}
-      passport_data.valid_for_passport?.should eq false
+      passport_data.valid_for_passport_in_part_one?.should eq false
+    end
+  end
+
+  describe "passport validation extension to hashes for part two" do
+    it "validates correct passports" do
+      passport_data = {"pid" => "087499704", "hgt" => "74in", "ecl" => "grn", "iyr" => "2012", "eyr" => "2030", "byr" => "1980", "hcl" => "#623a2f"}
+      passport_data.valid_for_passport_in_part_two?.should eq true
+    end
+
+    it "handles the file of incorrect passports" do
+      passports = FileOfPassports.new("./src/day_04/part_two_invalid.txt")
+      passports.each { |passport|
+        passport.valid_for_passport_in_part_two?.should eq false
+      }
+    end
+
+    it "handles the file of correct passports" do
+      passports = FileOfPassports.new("./src/day_04/part_two_valid.txt")
+      passports.each { |passport|
+        puts passport
+        passport.valid_for_passport_in_part_two?.should eq true
+      }
     end
   end
 
