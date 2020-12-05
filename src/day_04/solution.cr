@@ -31,15 +31,36 @@ class Hash
 
   private def all_data_is_valid_for_part_two
     begin
-      self["byr"].to_i >= 1920 && self["byr"].to_i <= 2002 && self["iyr"].to_i >= 2010 && self["iyr"].to_i <= 2020 && self["eyr"].to_i >= 2020 && self["eyr"].to_i <= 2030 && valid_height(self["hgt"]) && self["hcl"].matches?(/\#[a-f0-9]{6}/) && self["ecl"].matches?(/(amb|blu|brn|gry|grn|hzl|oth)/) && self["pid"].matches?(/[0-9]{9}/)
-    rescue
+      if self["byr"].to_i < 1920 || self["byr"].to_i > 2002
+        raise "Bad byr"
+      end
+      if self["iyr"].to_i < 2010 || self["iyr"].to_i > 2020
+        raise "Bad iyr"
+      end
+      if self["eyr"].to_i < 2020 && self["eyr"].to_i <= 2030
+        raise "Bad eyr"
+      end
+      if !valid_height(self["hgt"])
+        raise "Bad height"
+      end
+      if !self["hcl"].matches?(/\#[a-f0-9]{6}/)
+        raise "Bad hcl"
+      end
+      if !self["ecl"].matches?(/(amb|blu|brn|gry|grn|hzl|oth)/)
+        raise "Bad ecl"
+      end
+      if !self["pid"].matches?(/[0-9]{9}/)
+        raise "Bad pid"
+      end
+      true
+    rescue ex
       # being lazy so any exception probably means invalid
       false
     end
   end
 
   private def valid_height(height : String)
-    match = height.match(/([0-9].)(cm|in)/)
+    match = height.match(/([0-9]+)(cm|in)/)
     if !match
       false
     elsif match[2] == "cm"
@@ -85,7 +106,6 @@ class FileOfPassports
       @stopped = true
       @current_passport
     else
-      puts(new_data)
       raise "Unexpected line data"
     end
   end

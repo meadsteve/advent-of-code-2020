@@ -42,7 +42,6 @@ describe "Day 04 solution" do
     it "handles the file of correct passports" do
       passports = FileOfPassports.new("./src/day_04/part_two_valid.txt")
       passports.each { |passport|
-        puts passport
         passport.valid_for_passport_in_part_two?.should eq true
       }
     end
