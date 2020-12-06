@@ -64,3 +64,14 @@ class SeatingPosition
     (8 * @row) + @col
   end
 end
+
+
+def part_two_sol(seat_numbers)
+    # Once the numbers are sorted whichever pair doesnt
+    # increment by 1 are the two next to my seat
+    seat_numbers.sort.each_cons_pair{ | a, b |
+       if (a - b).abs != 1
+         return {a, b}
+       end
+    }
+end
