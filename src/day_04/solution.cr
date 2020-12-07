@@ -30,32 +30,38 @@ class Hash
   end
 
   private def all_data_is_valid_for_part_two
-    begin
-      if self["byr"].to_i < 1920 || self["byr"].to_i > 2002
-        raise "Bad byr"
-      end
-      if self["iyr"].to_i < 2010 || self["iyr"].to_i > 2020
-        raise "Bad iyr"
-      end
-      if self["eyr"].to_i < 2020 && self["eyr"].to_i <= 2030
-        raise "Bad eyr"
-      end
-      if !valid_height(self["hgt"])
-        raise "Bad height"
-      end
-      if !self["hcl"].matches?(/\#[a-f0-9]{6}/)
-        raise "Bad hcl"
-      end
-      if !self["ecl"].matches?(/(amb|blu|brn|gry|grn|hzl|oth)/)
-        raise "Bad ecl"
-      end
-      if !self["pid"].matches?(/[0-9]{9}/)
-        raise "Bad pid"
-      end
-      true
-    rescue ex
-      # being lazy so any exception probably means invalid
-      false
+    check_dates
+    check_colours
+    if !valid_height(self["hgt"])
+      raise "Bad height"
+    end
+    if !self["pid"].matches?(/[0-9]{9}/)
+      raise "Bad pid"
+    end
+    true
+  rescue ex
+    # being lazy so any exception probably means invalid
+    false
+  end
+
+  private def check_dates
+    if self["byr"].to_i < 1920 || self["byr"].to_i > 2002
+      raise "Bad byr"
+    end
+    if self["iyr"].to_i < 2010 || self["iyr"].to_i > 2020
+      raise "Bad iyr"
+    end
+    if self["eyr"].to_i < 2020 && self["eyr"].to_i <= 2030
+      raise "Bad eyr"
+    end
+  end
+
+  private def check_colours
+    if !self["hcl"].matches?(/\#[a-f0-9]{6}/)
+      raise "Bad hcl"
+    end
+    if !self["ecl"].matches?(/(amb|blu|brn|gry|grn|hzl|oth)/)
+      raise "Bad ecl"
     end
   end
 
