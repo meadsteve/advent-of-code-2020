@@ -25,14 +25,15 @@ class GroupedLines
 
   private def load_next_entry
     new_line = @lines.next
-    if new_line == Iterator::Stop::INSTANCE
+    case new_line
+    when Iterator::Stop::INSTANCE
       @stopped = true
       @current_group
-    elsif new_line == ""
+    when ""
       group_to_emit = @current_group
       @current_group = [] of String
       group_to_emit
-    elsif new_line.is_a?(String)
+    when String
       @current_group << new_line
       load_next_entry
     else

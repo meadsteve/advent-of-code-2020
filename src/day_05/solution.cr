@@ -45,17 +45,18 @@ class SeatingPosition
   def initialize(@seat_string : String)
     row_range = SplittingRange.new(0, 127)
     col_range = SplittingRange.new(0, 7)
-    seat_string.chars.each { |char|
-      if char == 'F'
+    seat_string.chars.each do |char|
+      case char
+      when 'F'
         row_range = row_range.lower_half
-      elsif char == 'B'
+      when 'B'
         row_range = row_range.upper_half
-      elsif char == 'L'
+      when 'L'
         col_range = col_range.lower_half
-      elsif char == 'R'
+      when 'R'
         col_range = col_range.upper_half
       end
-    }
+    end
     @row = row_range.single_value
     @col = col_range.single_value
   end
