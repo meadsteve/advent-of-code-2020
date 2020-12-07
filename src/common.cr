@@ -33,8 +33,8 @@ class GroupedLines
       @current_group = [] of String
       group_to_emit
     elsif new_line.is_a?(String)
-       @current_group << new_line
-       load_next_entry
+      @current_group << new_line
+      load_next_entry
     else
       raise "oh no"
     end

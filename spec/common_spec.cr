@@ -8,5 +8,4 @@ describe "common.cr" do
       GroupedLines.new(input).to_a.should eq [["a", "b"], ["c", "d"]]
     end
   end
-
 end
