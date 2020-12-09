@@ -1,12 +1,12 @@
 class BagNode
-  @can_contain = Set(BagNode).new
+  @should_contain = Set({BagNode, Int32}).new
   @can_be_contained_by = Set(BagNode).new
 
   def initialize(@bag_name : String)
   end
 
-  def should_contain(content_bag : BagNode, _count : Int32)
-    @can_contain << content_bag
+  def should_contain(content_bag : BagNode, count : Int32)
+    @should_contain << {content_bag, count}
   end
 
   def can_be_contained_by(containing_bag : BagNode)
@@ -17,6 +17,11 @@ class BagNode
     @can_be_contained_by.concat(
       @can_be_contained_by.map(&.all_possible_containers).flat_map(&.to_a)
     )
+  end
+
+  def bags_contained : Int32
+    # For each type of bag count how many of those + the amount they each contain
+    @should_contain.map { |it| it[1] + (it[0].bags_contained * it[1]) }.sum
   end
 end
 

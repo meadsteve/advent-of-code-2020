@@ -22,6 +22,15 @@ describe "Day 07 solution" do
       rules.add_link("periwinkle blue", should_contain: {colour: "octamarine", count: 2})
       rules["vermillion"].all_possible_containers.to_a.should eq [rules["octamarine"], rules["periwinkle blue"]]
     end
+
+    it "The links also store the counts of containers" do
+      rules = BagRules.new
+      rules.add_link("octamarine", should_contain: {colour: "vermillion", count: 1})
+      rules.add_link("periwinkle blue", should_contain: {colour: "octamarine", count: 2})
+
+      # 2 * octamarine + 2 vermillion (inside the octamarine)
+      rules["periwinkle blue"].bags_contained.should eq 4
+    end
   end
 
   describe "LineParser" do

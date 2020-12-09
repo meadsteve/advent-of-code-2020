@@ -14,3 +14,4 @@ input_data()
   end
 
 puts rules["shiny gold"].all_possible_containers.size
+puts rules["shiny gold"].bags_contained
