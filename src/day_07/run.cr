@@ -8,8 +8,8 @@ rules = BagRules.new
 input_data()
   .map { |it| parse_line(it) }
   .each do |line|
-    line[:can_contain].each do |containee|
-      rules.add_link(containee[:colour], can_be_contained_by: line[:bag])
+    line[:should_contain].each do |containee|
+      rules.add_link(line[:bag], should_contain: containee)
     end
   end
 

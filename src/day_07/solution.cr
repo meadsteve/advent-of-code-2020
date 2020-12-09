@@ -5,7 +5,7 @@ class BagNode
   def initialize(@bag_name : String)
   end
 
-  def can_contain(content_bag : BagNode)
+  def should_contain(content_bag : BagNode, _count : Int32)
     @can_contain << content_bag
   end
 
@@ -23,11 +23,11 @@ end
 class BagRules
   @bag_index = {} of String => BagNode
 
-  def add_link(bag : String, can_be_contained_by : String)
-    content_bag = self[bag]
-    container_bag = self[can_be_contained_by]
+  def add_link(bag : String, should_contain : {colour: String, count: Int32})
+    content_bag = self[should_contain[:colour]]
+    container_bag = self[bag]
     content_bag.can_be_contained_by(container_bag)
-    container_bag.can_contain(content_bag)
+    container_bag.should_contain(content_bag, should_contain[:count])
     self
   end
 
@@ -42,11 +42,11 @@ class BagRules
   end
 end
 
-def parse_line(line : String) : {bag: String, can_contain: Array({colour: String, count: Int32})}
+def parse_line(line : String) : {bag: String, should_contain: Array({colour: String, count: Int32})}
   pair = line.split(" bags contain ")
-  possible_contents = pair[1].split(",")
+  contents = pair[1].split(",")
     .map { |it| it.match(/([0-9]+) ([a-z ]+) bags?.?/) }
     .select(Regex::MatchData)
     .map { |it| {colour: it[2], count: it[1].to_i} }
-  {bag: pair[0], can_contain: possible_contents}
+  {bag: pair[0], should_contain: contents}
 end

@@ -12,24 +12,26 @@ describe "Day 07 solution" do
 
     it "Links can be created and work at one level" do
       rules = BagRules.new
-      rules.add_link("vermillion", can_be_contained_by: "octamarine")
+      rules.add_link("octamarine", should_contain: {colour: "vermillion", count: 1})
       rules["vermillion"].all_possible_containers.to_a.should eq [rules["octamarine"]]
     end
 
     it "Links can be created and work at multiple levels" do
       rules = BagRules.new
-      rules.add_link("vermillion", can_be_contained_by: "octamarine")
-      rules.add_link("octamarine", can_be_contained_by: "periwinkle blue")
+      rules.add_link("octamarine", should_contain: {colour: "vermillion", count: 1})
+      rules.add_link("periwinkle blue", should_contain: {colour: "octamarine", count: 2})
       rules["vermillion"].all_possible_containers.to_a.should eq [rules["octamarine"], rules["periwinkle blue"]]
     end
   end
 
   describe "LineParser" do
-    line = "light red bags contain 1 bright white bag, 2 muted yellow bags."
-    expected = {
-      bag:         "light red",
-      can_contain: [{colour: "bright white", count: 1}, {colour: "muted yellow", count: 2}],
-    }
-    parse_line(line).should eq expected
+    it "parses lines" do
+      line = "light red bags contain 1 bright white bag, 2 muted yellow bags."
+      expected = {
+        bag:            "light red",
+        should_contain: [{colour: "bright white", count: 1}, {colour: "muted yellow", count: 2}],
+      }
+      parse_line(line).should eq expected
+    end
   end
 end
