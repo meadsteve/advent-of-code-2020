@@ -42,11 +42,11 @@ class BagRules
   end
 end
 
-def parse_line(line : String) : NamedTuple(bag: String, can_contain: Array(String))
+def parse_line(line : String) : {bag: String, can_contain: Array({colour: String, count: Int32})}
   pair = line.split(" bags contain ")
   possible_contents = pair[1].split(",")
-    .map { |it| it.match(/[0-9]+ ([a-z ]+) bags?.?/) }
+    .map { |it| it.match(/([0-9]+) ([a-z ]+) bags?.?/) }
     .select(Regex::MatchData)
-    .map { |it| it[1] }
+    .map { |it| {colour: it[2], count: it[1].to_i} }
   {bag: pair[0], can_contain: possible_contents}
 end

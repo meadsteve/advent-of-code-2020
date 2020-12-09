@@ -26,7 +26,10 @@ describe "Day 07 solution" do
 
   describe "LineParser" do
     line = "light red bags contain 1 bright white bag, 2 muted yellow bags."
-    expected = {bag: "light red", can_contain: ["bright white", "muted yellow"]}
+    expected = {
+      bag:         "light red",
+      can_contain: [{colour: "bright white", count: 1}, {colour: "muted yellow", count: 2}],
+    }
     parse_line(line).should eq expected
   end
 end
