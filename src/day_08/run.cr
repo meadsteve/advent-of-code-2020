@@ -6,5 +6,7 @@ end
 
 instructions = input_data.to_a
 computer = Computer.new(instructions)
-
 puts computer.run
+
+part_two = fix_program(instructions)
+puts part_two
