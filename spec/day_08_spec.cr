@@ -17,7 +17,7 @@ describe "Day 08 solution" do
        acc +6
        INSTR
       )
-      computer.run.should eq 5
+      computer.run[:acc].should eq 5
     end
   end
 end

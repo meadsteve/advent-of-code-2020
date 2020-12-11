@@ -1,7 +1,9 @@
-class LoopDetected < Exception
-end
+require "../common.cr"
+
 
 class Computer
+  include Iterator(Array({acc: Int32, pos: Int32}))
+
   @executed_instructions = Set(Int32).new
   @accumulator = 0
   @position = 0
@@ -14,28 +16,30 @@ class Computer
   end
 
   def run
-    while true
-        apply_next_instruction
+    last = nil
+    self.each do |element|
+        last = element
     end
-  rescue LoopDetected
-    {acc: @accumulator, pos: @position}
+    last
   end
 
-  private def apply_next_instruction
+  def next
     if @executed_instructions.includes?(@position)
-      raise LoopDetected.new
+      return stop
     end
     @executed_instructions << @position
     instruction = @instructions[@position].split(" ")
-    @position += 1
     case instruction[0]
     when "acc"
-      @accumulator += instruction[1].to_i
+      @accumulator += numberish(instruction[1])
+      @position += 1
     when "jmp"
-      @position += instruction[1].to_i
+      @position += numberish(instruction[1])
     when "nop"
+      @position += 1
     else
       raise "Invalid instruction"
     end
+    {acc: @accumulator, pos: @position}
   end
 end

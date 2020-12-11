@@ -41,3 +41,18 @@ class GroupedLines
     end
   end
 end
+
+def numberish(numberlike : String) : Int32
+  parts = numberlike.match(/([+\-])([0-9]+)/)
+  if !parts
+    raise "not number like"
+  end
+  case parts[1]
+  when "+"
+    parts[2].to_i
+  when "-"
+    parts[2].to_i * -1
+  else
+    raise "not number like"
+  end
+end
