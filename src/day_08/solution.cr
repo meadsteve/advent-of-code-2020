@@ -55,7 +55,7 @@ end
 def fix_program(program : Array(String))
   (0..program.size).each do |fix_position|
     fixed_program = fix_instruction(program, fix_position)
-    if !fixed_program
+    if fixed_program
       next
     end
     computer = Computer.new(fixed_program)
