@@ -7,4 +7,3 @@ puts first_bad_number
 
 summing_range = find_summing_range(numbers, target: first_bad_number)
 puts summing_range.min + summing_range.max
-
